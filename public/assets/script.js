@@ -37,6 +37,53 @@ var r_radian = 0;
 var c_radian = 0;
 var geometry = void 0;
 var material = void 0;
+var hs_color;
+
+////////////////////////////
+// firebase 処理
+/////////////////////////
+
+
+var db = firebase.database();
+var fbColor = db.ref("/");
+//
+console.log(fbColor);
+
+//
+function changeData() {
+  var hs_color = document.getElementById("my_text").value;
+  fbColor.set({ "color": hs_color });
+
+  // fbColor.on("value", function(snapshot) {
+  //document.getElementById("hsColor").innerText =  //snapshot.val().text;
+  // 	hs_color = snapshot.val().text;
+  // 	console.log(hs_color);
+  // 	var text = document.getElementById("my_text").value;
+  //   fbColor.set({"color": hs_color});
+  // });
+
+
+  // console.log(return_val);
+
+  // for (let i=0 ; i < howManySpinners; i++) {
+  //   	model[i].material.color = new THREE.Color(hs_color);
+  // }
+}
+
+fbColor.on("value", function (snapshot) {
+  document.getElementById("hsColor").innerText = snapshot.val().color;
+  console.log(snapshot.val().color);
+  hs_color = snapshot.val().color;
+  // fbColor.set({"color": hs_color});
+
+  for (var i = 0; i < howManySpinners; i++) {
+    model[i].material.color = new THREE.Color(hs_color);
+  }
+});
+
+//////////////////////////
+//
+///////////////////////////
 
 function renderHandSpinner() {
   'use strict';
@@ -86,7 +133,8 @@ function renderHandSpinner() {
   //modelPath = 'src/bear.json';
   //modelPath = 'src/handspiner_3d.json';
   //modelPath = '../src/data/handspiner_3d_geo.json';
-  modelPath = './src/data/handspiner_3d_geo.json';
+  //modelPath = './src/data/handspiner_3d_geo.json';
+  modelPath = './data/handspiner_3d_geo.json';
   //modelPath = '/Users/yoshimurahiroyuki/workspace/threejs/src/handspiner.json';
 
   var loader = new THREE.JSONLoader();
@@ -116,7 +164,8 @@ function renderHandSpinner() {
 
       model[i].scale.set(0.5, 0.5, 0.5);
       var randColor = Math.random() * 0xffffff;
-      model[i].material.color = new THREE.Color(randColor);
+      model[i].material.color = new THREE.Color(hs_color);
+      //model[i].material.color = new THREE.Color(randColor);
       scene.add(model[i]);
     }
     render();
@@ -134,12 +183,13 @@ function addSpinner() {
   model.scale.set(size, size, size);
   model.position.set(randX, randY, randZ);
   var randColor = Math.random() * 0xffffff;
-  model.material.color = new THREE.Color(randColor);
+  //model.material.color = new THREE.Color(randColor);
+  model.material.color = new THREE.Color(hs_color);
+  console.log(hs_color);
   scene.add(model);
 }
 
 function render() {
-  console.log("coming");
 
   requestAnimationFrame(render);
   r_radian += 0.01;
@@ -147,12 +197,11 @@ function render() {
   for (var i = 0; i < howManySpinners; i++) {
     model[i].rotation.y += rotate_speed;
     model[i].position.y += (Math.sin(r_radian) - Math.sin(r_radian - 0.01)) * 150;
-    console.log("hoge");
   }
 
   c_radian += 0.007;
   var cameraZ = 150 * Math.sin(c_radian) + 150;
-  // let cameraZ = 0; 
+  // let cameraZ = 0;
   camera.position.set(0, 600, cameraZ);
 
   controls.update();
@@ -163,9 +212,10 @@ function changeRotateSpeed() {
   //controls.autoRotateSpeed = vm.count*10;
   rotate_speed += vm.count * 0.01;
   for (var i = 0; i < howManySpinners; i++) {
-
+    // model[i].material.color = new THREE.Color(hs_color);
     model[i].rotation.y = 1.8 * vm.count;
   }
+  console.log(hs_color);
 }
 
 function Speed_0() {

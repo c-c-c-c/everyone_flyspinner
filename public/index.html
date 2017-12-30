@@ -6,20 +6,50 @@
 </head>
 
 <body>
-    
+	<p>文字を入れると更新されます</p>
+		<ul>
+			<li id="hsColor"></li>
+			<li><input type="text" name="" id="my_text"></li>
+			<li><a onclick="changeData()">更新</a></li>
+	</ul>
+
+
+
     <div id="mystop" style="float:left;">
-    <img src="public/img/Stop.png" v-on:click= "hsStop" width="200px">
+    <!-- <img src="public/img/Stop.png" v-on:click= "hsStop" width="200px"> -->
+		<img src="img/Stop.png" v-on:click= "hsStop" width="200px">
     </div>
     <div id="mycounter" style="float:left;">
-      <img src="public/img/SPIN.png" v-on:click= "countUp" width="200px" style="float:left;">
+      <!-- <img src="public/img/SPIN.png" v-on:click= "countUp" width="200px" style="float:left;"> -->
+			<img src="img/SPIN.png" v-on:click= "countUp" width="200px" style="float:left;">
       <div style="float:left;">回転スピードLv:</div><span v-text="count" style="float:left;"></span>
     </div>
     <div style="clear: both;"></div>
 	  <div id="stage"></div>
-    <script src="./public/assets/vue.js"></script>
+    <!-- <script src="./public/assets/vue.js"></script>
     <script src='./public/assets/three.min.js'></script>
     <script src='./public/assets/OrbitControls.js'></script>
-    <script src='./public/assets/script.js'></script>
+    <script src='./public/assets/script.js'></script> -->
+		<script src="./assets/vue.js"></script>
+    <script src='./assets/three.min.js'></script>
+    <script src='./assets/OrbitControls.js'></script>
+		<script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+		<script>
+		  var config = {
+		    apiKey: "AIzaSyDaSrmxzbQqKZDwiGBNQJBacqvr1Z2HsjI",
+		    authDomain: "everyone-flyspinner.firebaseapp.com",
+		    databaseURL: "https://everyone-flyspinner.firebaseio.com",
+		    projectId: "everyone-flyspinner",
+		    storageBucket: "everyone-flyspinner.appspot.com",
+		    messagingSenderId: "726686500077"
+		  };
+		  firebase.initializeApp(config);
+		</script>
+
+
+
+    <script src='./assets/script.js'></script>
+
 
 <!--
     <script>
@@ -31,17 +61,17 @@
           },
           methods: {
             countUp: function() {
-                    this.count++; 
-                    changeRotateSpeed (); 
+                    this.count++;
+                    changeRotateSpeed ();
               }
           }
         });
-        
+
         var vm_stop = new Vue({
           el: '#mystop',
           methods: {
             hsStop: function() {
-                    Speed_0(); 
+                    Speed_0();
             }
           }
         });
@@ -57,7 +87,7 @@
 	      var radian = 0;
 	      var geometry;
 	     	var material;
-	  
+
         function renderHandSpinner () {
         'use strict';
 	  	  let light;
@@ -96,7 +126,7 @@
         //scene.add(axisHelper);
 	      lightHelper = new THREE.DirectionalLightHelper(light , 20)
   	    //scene.add(lightHelper);
- 
+
         //controls
 	      controls = new THREE.OrbitControls(camera);
         controls.autoRotate = true;
@@ -152,7 +182,7 @@
         //model.rotation.x = 1;
 	      render();
       });　
-    
+
     }
 
 	  function addSpinner () {
@@ -161,7 +191,7 @@
 			let randX = 800 * Math.random();
 			let randY = 800 * Math.random();
 			let randZ = 800 * Math.random();
-			
+
       let size = Math.random();
 			model.scale.set(size, size, size);　　　
       model.position.set(randX, randY, randZ);
@@ -196,13 +226,13 @@
 	    console.log(vm.count);
  	 //   requestAnimationFrame(render);
 	  }
-            
+
     function Speed_0 () {
 	    vm.count = 0;
 	    rotate_speed = 0;
 	   	addSpinner();
 	  }
-    
+
     renderHandSpinner();
     </script>
 
@@ -216,7 +246,7 @@
         <div v-text="count"></div>
         <button v-on="click:countUp">Up</button>
 
-    </div> 
+    </div>
 
   <script src="./assets/vue.js"></script>
   <script>
@@ -231,7 +261,7 @@
                     this.count++;
                 }
             }
-        });  
+        });
   </script>
 
 
